@@ -21,6 +21,10 @@ class User: NSObject, NSCoding {
     var longestStreak = 0
     var hasReminder = false
     var reminderTime = ""
+    var color = UIColor(hexString: "#4A86E8")
+    var xpMultiplier = 1
+    var boughtColor = false
+    var boughtMulti = false
     
     static var sharedUser = User(rand: 13)
     private init(rand: Int) { }
@@ -37,6 +41,10 @@ class User: NSObject, NSCoding {
         longestStreak = aDecoder.decodeInteger(forKey: "longestStreak")
         hasReminder = aDecoder.decodeBool(forKey: "hasReminder")
         reminderTime = aDecoder.decodeObject(forKey: "reminderTime") as! String
+        color = aDecoder.decodeObject(forKey: "color") as! UIColor
+        boughtColor = aDecoder.decodeBool(forKey: "boughtColor")
+        boughtMulti = aDecoder.decodeBool(forKey: "boughtMulti")
+        xpMultiplier = aDecoder.decodeInteger(forKey: "xpMultiplier")
     }
     
     // Encodes and saves a "User" object in the device
@@ -51,11 +59,15 @@ class User: NSObject, NSCoding {
         aCoder.encode(longestStreak, forKey: "longestStreak")
         aCoder.encode(hasReminder, forKey: "hasReminder")
         aCoder.encode(reminderTime, forKey: "reminderTime")
+        aCoder.encode(color, forKey: "color")
+        aCoder.encode(boughtColor, forKey: "boughtColor")
+        aCoder.encode(boughtMulti, forKey: "boughtMulti")
+        aCoder.encode(xpMultiplier, forKey: "xpMultiplier")
     }
     
     // Adds xp to the user and levels the user up if applicable
     func addXP(num: Int) {
-        xp += num
+        xp += num*xpMultiplier
         if xp >= (20*level-10) {
             xp -= (20*level-10)
             level += 1

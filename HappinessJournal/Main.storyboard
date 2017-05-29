@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fVT-Da-TnA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fVT-Da-TnA">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--History Controller-->
+        <!--History-->
         <scene sceneID="92d-kJ-cIs">
             <objects>
                 <viewController id="i2S-F9-KeG" customClass="HistoryController" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
@@ -22,13 +22,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Clock" id="8Bx-fh-xm3"/>
+                    <tabBarItem key="tabBarItem" title="History" image="Clock" id="8Bx-fh-xm3">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aOm-yS-cl7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1895" y="236"/>
         </scene>
-        <!--Profile Controller-->
+        <!--Profile-->
         <scene sceneID="mXg-6J-4g1">
             <objects>
                 <viewController id="CfV-Ai-qq8" customClass="ProfileController" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
@@ -41,32 +43,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Profile" id="MPq-Kd-nOt"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="Profile" id="MPq-Kd-nOt">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amU-qy-5n0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-372" y="-368"/>
         </scene>
-        <!--Intro Controller-->
-        <scene sceneID="W6j-PQ-Vmg">
+        <!--StoreController-->
+        <scene sceneID="rDT-p0-Ehx">
             <objects>
-                <viewController id="qmD-KW-KqT" customClass="IntroController" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StoreController" title="StoreController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jq3-NF-ffW" customClass="StoreController" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="7CN-x7-upB"/>
-                        <viewControllerLayoutGuide type="bottom" id="9ra-iu-VLl"/>
+                        <viewControllerLayoutGuide type="top" id="LEQ-0j-dTF"/>
+                        <viewControllerLayoutGuide type="bottom" id="L0X-HZ-sji"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ZFT-Ew-pAv">
+                    <view key="view" contentMode="scaleToFill" id="4Fg-dF-nQF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-                        <segue destination="fVT-Da-TnA" kind="show" identifier="showTabs" id="jUA-yj-51a"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gPh-b7-1Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Me7-gs-adF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="390" y="-113"/>
+            <point key="canvasLocation" x="300" y="-368"/>
         </scene>
         <!--AlertController-->
         <scene sceneID="axF-CE-itg">
@@ -86,7 +87,7 @@
             </objects>
             <point key="canvasLocation" x="-1151" y="640"/>
         </scene>
-        <!--Entry Controller-->
+        <!--Journal-->
         <scene sceneID="yFJ-Bc-wgj">
             <objects>
                 <viewController id="3yd-Js-nEN" customClass="EntryController" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
@@ -99,16 +100,107 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Entry" id="QFk-3w-V9H"/>
+                    <tabBarItem key="tabBarItem" title="Journal" image="Entry" id="QFk-3w-V9H">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1"/>
+                    </tabBarItem>
                     <connections>
-                        <segue destination="qmD-KW-KqT" kind="show" identifier="showIntro" id="DzR-mk-lAW"/>
+                        <segue destination="7KH-Zg-RpV" kind="presentation" identifier="showIntro" animates="NO" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="Jrt-K7-sHt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BdP-o4-u0w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-372" y="311"/>
         </scene>
-        <!--Calendar Controller-->
+        <!--About Controller-->
+        <scene sceneID="Ftg-DF-IeV">
+            <objects>
+                <viewController storyboardIdentifier="AboutController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="SfV-J8-DcC" customClass="AboutController" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="c1g-y1-cnd"/>
+                        <viewControllerLayoutGuide type="bottom" id="gCM-he-kOf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="by3-2J-Zd1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aPq-VE-8VR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="291" y="315"/>
+        </scene>
+        <!--Intro Page Controller-->
+        <scene sceneID="kv2-eV-KvM">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="7KH-Zg-RpV" customClass="IntroPageController" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="kt8-wp-936" kind="show" identifier="1" id="grl-nB-L4H"/>
+                        <segue destination="Zj2-cO-zJL" kind="show" identifier="2" id="eEH-Mj-Zph"/>
+                        <segue destination="gk3-yH-Kv5" kind="show" identifier="3" id="nrT-qa-fBy"/>
+                    </connections>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5T1-br-pKy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4174" y="-507"/>
+        </scene>
+        <!--Page One-->
+        <scene sceneID="BHb-Tb-hBy">
+            <objects>
+                <viewController storyboardIdentifier="PageOne" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kt8-wp-936" customClass="PageOne" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lHO-Hb-4BC"/>
+                        <viewControllerLayoutGuide type="bottom" id="KT9-FI-0wI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oly-Ng-CvN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yQ8-Ir-xeg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4997" y="197"/>
+        </scene>
+        <!--Page Two-->
+        <scene sceneID="slE-Ud-rfa">
+            <objects>
+                <viewController storyboardIdentifier="PageTwo" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Zj2-cO-zJL" customClass="PageTwo" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fL9-hh-34U"/>
+                        <viewControllerLayoutGuide type="bottom" id="DXS-hi-Qwc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="X27-je-VIi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="itZ-7L-Q0f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4175" y="349"/>
+        </scene>
+        <!--Page Three-->
+        <scene sceneID="iWl-5i-H3Z">
+            <objects>
+                <viewController storyboardIdentifier="PageThree" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gk3-yH-Kv5" customClass="PageThree" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nQQ-YK-HHP"/>
+                        <viewControllerLayoutGuide type="bottom" id="V76-HP-MAj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yA1-2g-Let">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="fVT-Da-TnA" kind="presentation" identifier="showTabs" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="C1b-Dd-zrn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l2H-cu-Uxk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3414" y="194"/>
+        </scene>
+        <!--Calendar-->
         <scene sceneID="uEt-s9-YPa">
             <objects>
                 <viewController storyboardIdentifier="CalendarController" id="sSU-um-Q0w" customClass="CalendarController" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
@@ -121,15 +213,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Calendar" id="MaX-8u-4nQ">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                    <tabBarItem key="tabBarItem" title="Calendar" image="Calendar" id="MaX-8u-4nQ">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1"/>
                     </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ugr-pj-DYp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1895" y="-457"/>
         </scene>
-        <!--Settings Controller-->
+        <!--Settings-->
         <scene sceneID="L3O-RB-O2V">
             <objects>
                 <viewController id="36D-Yj-I7U" customClass="SettingsController" customModule="HappinessJournal" customModuleProvider="target" sceneMemberID="viewController">
@@ -142,7 +234,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Menu" id="xge-ud-OFN"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="Menu" id="xge-ud-OFN">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UTi-mj-8cm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -151,7 +245,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="ADG-bg-YlZ">
             <objects>
-                <tabBarController id="fVT-Da-TnA" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="Tabs" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fVT-Da-TnA" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="JNu-o6-DFu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

@@ -13,8 +13,8 @@ class HistoryController: UIViewController, UIScrollViewDelegate {
     var scrollView: UIScrollView!
     var containerView = UIView()
     var header: Header!
-    let width = Int(UIScreen.main.bounds.width)
-    let height = Int(UIScreen.main.bounds.height)
+    let width = 375
+    let height = 667
     let currentDate = Date()
     let dateFormatter = DateFormatter()
     var control = UISegmentedControl()
@@ -27,7 +27,7 @@ class HistoryController: UIViewController, UIScrollViewDelegate {
         self.view.backgroundColor = Header.bg
         header = Header(title: "History")
         self.view.addSubview(header)
-        let headerBottomBorder = UIView(frame: CGRect(x: 0.0, y: 63.5, width: Double(width), height: 0.5))
+        let headerBottomBorder = UIView(frame: CGRect(x: 0.0, y: 63.5, width: Double(width), height: 0.5, scale: true))
         headerBottomBorder.backgroundColor = UIColor.lightGray
         self.view.addSubview(headerBottomBorder)
                 
@@ -35,16 +35,16 @@ class HistoryController: UIViewController, UIScrollViewDelegate {
         
         scrollView = UIScrollView()
         scrollView.delegate = self
-        scrollView.contentSize = CGSize(width: self.width, height: self.height*10)
+        scrollView.contentSize = CGSize(width: self.width, height: self.height-164, scale: true)
         containerView = UIView()
         self.view.addSubview(scrollView)
         scrollView.addSubview(containerView)
         
-        noEntriesLabel.frame = CGRect(x: width/2 - 100, y: 64, width: 200, height: 52)
+        noEntriesLabel.frame = CGRect(x: width/2 - 100, y: 64, width: 200, height: 52, scale: true)
         noEntriesLabel.text = "No Entries"
         noEntriesLabel.textColor = UIColor.gray
         noEntriesLabel.textAlignment = NSTextAlignment.center
-        noEntriesLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 26)!
+        noEntriesLabel.font = UIFont(name:"HelveticaNeue-Medium", size: 26)!
         containerView.addSubview(noEntriesLabel)
 
         showFilterButtons()
@@ -53,14 +53,14 @@ class HistoryController: UIViewController, UIScrollViewDelegate {
     // Readjusts the UIScrollView
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.frame = CGRect(x: 0, y: 116, width: self.width, height: self.height-64-52-49)
+        scrollView.frame = CGRect(x: 0, y: 116, width: self.width, height: self.height-64-52-49, scale: true)
         containerView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
     }
     
     // Creates the UISegmentedControl buttons at the top of the view
     func showFilterButtons() {
-        control = UISegmentedControl(frame: CGRect(x: 15, y: 74, width: width-30, height: 30))
-        control.tintColor = Header.appColor
+        control = UISegmentedControl(frame: CGRect(x: 15, y: 74, width: width-30, height: 30, scale: true))
+        control.tintColor = User.sharedUser.color
         control.insertSegment(withTitle: "Past Week", at: 0, animated: false)
         control.insertSegment(withTitle: "Past Month", at: 1, animated: false)
         control.insertSegment(withTitle: "Past Year", at: 2, animated: false)
@@ -99,17 +99,17 @@ class HistoryController: UIViewController, UIScrollViewDelegate {
         }
         var i = 0
         for box in sortDates(fromBoxArr: boxes) {
-            box.frame = CGRect(x: 15, y: i*140, width: width-30, height: 130)
+            box.frame = CGRect(x: 15, y: i*140, width: width-30, height: 130, scale: true)
             containerView.addSubview(box)
             i += 1
             
             let textSize = CGSize(width: box.entryLabel.frame.size.width, height: CGFloat(Float.infinity))
             let lineCount = lroundf(Float(box.entryLabel.sizeThatFits(textSize).height))/lroundf(Float(box.entryLabel.font.lineHeight))
             if lineCount < 3 {
-                box.entryLabel.font = UIFont(name:"HelveticaNeue-Bold", size: CGFloat(37-lineCount*6))!
+                box.entryLabel.font = UIFont(name:"HelveticaNeue-Medium", size: CGFloat(37-lineCount*6), scale: 3)
             }
         }
-        scrollView.contentSize = CGSize(width: self.width, height: i*140+10)
+        scrollView.contentSize = CGSize(width: self.width, height: i*140+10, scale: true)
     }
     
     // Sorts the HistoryBoxes so they appear from newest to oldest
@@ -146,7 +146,7 @@ extension Date {
     }
     
     // Returns the amount of days from another date
-    func days(from date: Date) -> Int { //FIX!!!!!!
+    func days(from date: Date) -> Int {
         let date1 = Calendar.current.startOfDay(for: self)
         let date2 = Calendar.current.startOfDay(for: date)
         return Calendar.current.dateComponents([.day], from: date2, to: date1).day ?? 0

@@ -17,10 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        // Sends the user to the EntryController when they first open the app
+        // Sends the user to the EntryController when they open the app
         let tabBarController = self.window?.rootViewController as! UITabBarController
-        tabBarController.selectedIndex = 2
+        tabBarController.tabBar.tintColor = User.sharedUser.color
         entryCon = tabBarController.customizableViewControllers?[2] as! EntryController!
+        
+        //entryCon.resetData()
+        if let savedUser = UserDefaults.standard.object(forKey: "user") as? Data {
+            User.sharedUser = NSKeyedUnarchiver.unarchiveObject(with: savedUser) as! User
+        } else {
+            entryCon.shiftToIntro()
+        }
+        
+        tabBarController.selectedIndex = 2
         
         return true
     }

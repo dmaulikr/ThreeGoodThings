@@ -10,14 +10,16 @@ import UIKit
 
 class CalMonth: UIView {
     
-    let frameWidth = Int(UIScreen.main.bounds.width) - 30
+    let frameWidth = 345
     let parent: CalendarController
     var calDays = Array<CalDay>()
     
+    // Initializes the object
     init(parentController: CalendarController) {
         parent = parentController
-        super.init(frame: CGRect(x: 15, y: 170, width: frameWidth, height: 6*frameWidth/7))
+        super.init(frame: CGRect(x: 15, y: 120, width: frameWidth, height: 6*frameWidth/7, scale: true))
         self.backgroundColor = UIColor.white
+        self.layer.cornerRadius = 10
         fillMonth(param: "init")
     }
     
@@ -26,13 +28,16 @@ class CalMonth: UIView {
         let numDays = Calendar.current.range(of: .day, in: .month, for: parent.pageDate)!.count
         let dayOffset = Calendar.current.component(.weekday, from: parent.pageDate)-1
         let dayWidth = frameWidth/7
+        self.frame.size = CGSize(width: frameWidth, height: 5*frameWidth/7, scale: true)
         for i in 0...36 {
             var dayText = "\(i+1-dayOffset)"
             if i < dayOffset || (i+1-dayOffset) > numDays {
                 dayText = ""
+            } else if i > 34 {
+                self.frame.size = CGSize(width: frameWidth, height: 6*frameWidth/7, scale: true)
             }
             if param == "init" {
-                calDays.append(CalDay(frame: CGRect(x: (i%7)*dayWidth, y: (i/7)*dayWidth, width: dayWidth, height: dayWidth), parentMonth: self, day: dayText))
+                calDays.append(CalDay(frame: CGRect(x: (i%7)*dayWidth, y: (i/7)*dayWidth, width: dayWidth, height: dayWidth, scale: true), parentMonth: self, day: dayText))
                 self.addSubview(calDays[i])
             } else {
                 calDays[i].dayText = dayText
@@ -48,12 +53,12 @@ class CalMonth: UIView {
                 let date = Calendar.current.date(bySetting: .day, value: Int(calDay.dayText)!, of: parent.pageDate)!
                 let dayStr = calDay.createDayString(fromDate: date)
                 if User.sharedUser.days[dayStr]?.isComplete != nil && User.sharedUser.days[dayStr]!.isComplete {
-                    calDay.backgroundColor = Header.appColor
+                    calDay.backgroundColor = User.sharedUser.color
                 } else {
-                    calDay.backgroundColor = UIColor.white
+                    calDay.backgroundColor = UIColor.clear
                 }
             } else {
-                calDay.backgroundColor = UIColor.white
+                calDay.backgroundColor = UIColor.clear
             }
         }
     }

@@ -10,16 +10,18 @@ import UIKit
 
 class HistoryBox: UIView {
     
-    let width = Int(UIScreen.main.bounds.width)
+    let width = 375
     var dateLabel = UILabel()
     var entryLabel = UILabel()
     var date = Date()
     
+    // Initializes the object
     init(dayStr: String, boxText: String) {
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         self.backgroundColor = UIColor.white
-        dateLabel = makeLabel(label: dateLabel, rect: CGRect(x: 10, y: 0, width: 150, height: 30), font: UIFont(name:"HelveticaNeue-Thin", size: 13)!, color: UIColor.black)
-        entryLabel = makeLabel(label: entryLabel, rect: CGRect(x: 10, y: 15, width: 325, height: 115), font: UIFont(name:"HelveticaNeue-Bold", size: 19)!, color: Header.appColor)
+        self.layer.cornerRadius = 10
+        dateLabel = makeLabel(label: dateLabel, rect: CGRect(x: 10, y: 0, width: 150, height: 30, scale: true), font: UIFont(name:"HelveticaNeue-Light", size: 13)!, color: UIColor.black)
+        entryLabel = makeLabel(label: entryLabel, rect: CGRect(x: 10, y: 15, width: 325, height: 115, scale: true), font: UIFont(name:"HelveticaNeue-Medium", size: 18.8, scale: 2.8), color: User.sharedUser.color)
         showEntry(dayStr: dayStr, entry: boxText)
     }
     

@@ -8,53 +8,72 @@
 
 import UIKit
 
-class CalendarController: UIViewController, CalDayDelegate {
+class CalendarController: UIViewController, CalDayDelegate, UIScrollViewDelegate {
     
-    let width = Int(UIScreen.main.bounds.width)
+    let width = 375
     var header: Header!
     var pageDate = Date()
     let dateFormatter = DateFormatter()
     var monthLabel = UILabel()
-    var forwardButton = UIButton()
-    var forwardDisabled = true
+    var backwardButton = UIButton()
+    var backwardDisabled = true
     var monthCounter = 0
     var cal: CalMonth!
+    var calX: CGFloat!
+    
+    var scrollView: UIScrollView!
+    var containerView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Sets up the header, background, and other views
-        self.view.backgroundColor = Header.appColor
+        self.view.backgroundColor = User.sharedUser.color
         header = Header(title: "Calendar")
         self.view.addSubview(header)
-        let headerBottomBorder = UIView(frame: CGRect(x: 0.0, y: 63.5, width: Double(width), height: 0.5))
+        let headerBottomBorder = UIView(frame: CGRect(x: 0.0, y: 63.5, width: Double(width), height: 0.5, scale: true))
         headerBottomBorder.backgroundColor = UIColor.lightGray
         self.view.addSubview(headerBottomBorder)
+        
+        scrollView = UIScrollView()
+        scrollView.delegate = self
+        scrollView.contentSize = CGSize(width: 375, height: 555, scale: true)
+        containerView = UIView()
+        scrollView.addSubview(containerView)
+        self.view.addSubview(scrollView)
                 
         if Calendar.current.component(.day, from: pageDate) != 1 {
             pageDate = Calendar.current.date(byAdding: .month, value: -1, to: pageDate)!
             pageDate = Calendar.current.date(bySetting: .day, value: 1, of: pageDate)!
         }
         cal = CalMonth(parentController: self)
-        self.view.addSubview(cal)
+        calX = cal.frame.origin.x
+        containerView.addSubview(cal)
         createMonthElements()
+    }
+    
+    // Readjusts the UIScrollView
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.frame = CGRect(x: 0, y: 64, width: 375, height: 554, scale: true)
+        containerView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
     }
 
     // Creates the labels and buttons that accompany the calendar
     func createMonthElements() {
         dateFormatter.dateFormat = "MMMM yyyy"
-        monthLabel = makeLabel(text: dateFormatter.string(from: pageDate), rect: CGRect(x: width/2 - 90, y: 64, width: 180, height: 52), font: UIFont(name:"HelveticaNeue-Bold", size: 23)!)
-        self.view.addSubview(monthLabel)
+        monthLabel = makeLabel(text: dateFormatter.string(from: pageDate), rect: CGRect(x: width/2 - 90, y: 20, width: 180, height: 52, scale: true), font: UIFont(name:"HelveticaNeue-Medium", size: 23, scale: 3.5))
+        containerView.addSubview(monthLabel)
         
         let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
         for i in 0...6 {
-            let dayLabel = makeLabel(text: days[i], rect: CGRect(x: 15 + i*Int(cal.frame.width)/7, y: Int(cal.frame.minY)-Int(cal.frame.width)/7, width: Int(cal.frame.width)/7, height: Int(cal.frame.width)/7), font: UIFont(name:"HelveticaNeue-Thin", size: 17)!)
-            self.view.addSubview(dayLabel)
+            let dayLabel = makeLabel(text: days[i], rect: CGRect(x: 15 + i*cal.frameWidth/7, y: 120-cal.frameWidth/7, width: cal.frameWidth/7, height: cal.frameWidth/7, scale: true), font: UIFont(name:"HelveticaNeue-Light", size: 17)!)
+            containerView.addSubview(dayLabel)
         }
         
-        let _ = makeButton(fileName: "Backward.png", buttonX: width/2-120, selector: #selector(self.monthBackward(sender:)), showTouch: true)
-        forwardButton = makeButton(fileName: "Forward.png", buttonX: width/2+90, selector: #selector(self.monthForward(sender:)), showTouch: false)
-        forwardButton.tintColor = Header.appColor
+        let _ = makeButton(fileName: "Forward.png", buttonX: width/2+90, selector: #selector(self.monthForward(sender:)), showTouch: true)
+        backwardButton = makeButton(fileName: "Backward.png", buttonX: width/2-120, selector: #selector(self.monthBackward(sender:)), showTouch: true)
+        backwardButton.tintColor = User.sharedUser.color
     }
     
     // Creates a label based on the pre-determined text, frame, and font to be used
@@ -72,25 +91,54 @@ class CalendarController: UIViewController, CalDayDelegate {
     func makeButton(fileName: String, buttonX: Int, selector: Selector, showTouch: Bool) -> UIButton {
         let image = UIImage(named: fileName)?.withRenderingMode(.alwaysTemplate)
         let button = UIButton(type: UIButtonType.custom)
-        button.frame = CGRect(x: buttonX, y: 75, width: 30, height: 30)
+        button.frame = CGRect(x: buttonX, y: 31, width: 30, height: 30, scale: true)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.white
         button.addTarget(self, action: selector, for: .touchUpInside)
         button.showsTouchWhenHighlighted = showTouch
-        self.view.addSubview(button)
+        containerView.addSubview(button)
         return button
     }
     
     // Called when the user presses the forward month arrow
     func monthForward(sender: UIButton!) {
-        if !forwardDisabled {
-            monthChange(val: 1)
-        }
+        UIView.animate(withDuration: 0.3, delay: 0, options: [], animations: {
+            self.cal.frame.origin.x -= UIScreen.main.bounds.width
+             },
+                       completion: {
+                        (value: Bool) in
+                        self.monthChange(val: 1)
+                        self.cal.frame.origin.x = UIScreen.main.bounds.width
+                        UIView.animate(withDuration: 0.3, delay: 0, options: [], animations: {
+                            self.cal.frame.origin.x = self.calX
+                        },
+                                       completion: {
+                                        (value: Bool) in
+                                        self.cal.frame.origin.x = self.calX
+                        })
+        })
+        
     }
     
     // Called when the user presses the backward month arrow
     func monthBackward(sender: UIButton!) {
-        monthChange(val: -1)
+        if !backwardDisabled {
+            UIView.animate(withDuration: 0.3, delay: 0, options: [], animations: {
+                self.cal.frame.origin.x += UIScreen.main.bounds.width
+            },
+                           completion: {
+                            (value: Bool) in
+                            self.monthChange(val: -1)
+                            self.cal.frame.origin.x = -UIScreen.main.bounds.width
+                            UIView.animate(withDuration: 0.3, delay: 0, options: [], animations: {
+                                self.cal.frame.origin.x = self.calX
+                            },
+                                           completion: {
+                                            (value: Bool) in
+                                            self.cal.frame.origin.x = self.calX
+                            })
+            })
+        }
     }
     
     // Updates the calendar when the month is changed
@@ -99,14 +147,12 @@ class CalendarController: UIViewController, CalDayDelegate {
         monthLabel.text = dateFormatter.string(from: pageDate)
         cal.fillMonth(param: "monthChange")
         monthCounter += val
-        if monthCounter >= 0 {
-            forwardDisabled = true
-            forwardButton.tintColor = Header.appColor
-            forwardButton.showsTouchWhenHighlighted = false
+        if monthCounter <= 0 {
+            backwardDisabled = true
+            backwardButton.tintColor = User.sharedUser.color
         } else {
-            forwardDisabled = false
-            forwardButton.tintColor = UIColor.white
-            forwardButton.showsTouchWhenHighlighted = true
+            backwardDisabled = false
+            backwardButton.tintColor = UIColor.white
         }
     }
     

@@ -8,12 +8,14 @@
 
 import UIKit
 
-class ProfileController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextViewDelegate {
+class ProfileController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate {
     
-    let width = Int(UIScreen.main.bounds.width)
-    let height = Int(UIScreen.main.bounds.height)
+    var scrollView: UIScrollView!
+    var containerView = UIView()
+    
+    let width = 375
+    let height = 667
     var header: Header!
-    let nameCharLimit = 9
     
     let levelLabel = UILabel()
     var xpBar = UIView()
@@ -22,7 +24,7 @@ class ProfileController: UIViewController, UINavigationControllerDelegate, UIIma
     var numLabels = [UILabel]()
     
     let profileCirlce = UIButton(type: UIButtonType.custom)
-    var avatarImageView = UIImageView(image: UIImage(named: "Pro-Pic.png")?.withRenderingMode(.alwaysTemplate))
+    let cameraButton = UIButton(type: UIButtonType.custom)
     let imagePicker =  UIImagePickerController()
     
     override func viewDidLoad() {
@@ -32,82 +34,79 @@ class ProfileController: UIViewController, UINavigationControllerDelegate, UIIma
         self.view.backgroundColor = Header.bg
         header = Header(title: "Profile")
         self.view.addSubview(header)
-        let headerBottomBorder = UIView(frame: CGRect(x: 0.0, y: 63.5, width: Double(width), height: 0.5))
+        let headerBottomBorder = UIView(frame: CGRect(x: 0.0, y: 63.5, width: Double(width), height: 0.5, scale: true))
         headerBottomBorder.backgroundColor = UIColor.lightGray
         self.view.addSubview(headerBottomBorder)
         
-        profileCirlce.frame = CGRect(x: 30, y: 82, width: 100, height: 100)
+        scrollView = UIScrollView()
+        scrollView.delegate = self
+        scrollView.contentSize = CGSize(width: 375, height: 555, scale: true)
+        containerView = UIView()
+        scrollView.addSubview(containerView)
+        self.view.addSubview(scrollView)
+        
+        profileCirlce.frame = CGRect(x: 25, y: 16, width: 80, height: 80, scale: true)
         profileCirlce.layer.cornerRadius = 0.5 * profileCirlce.bounds.size.width
-        profileCirlce.backgroundColor = UIColor.white
-        profileCirlce.layer.borderWidth = 4
-        profileCirlce.layer.borderColor = Header.appColor.cgColor
         profileCirlce.contentMode = .scaleAspectFit
         profileCirlce.imageView?.clipsToBounds = true
+        profileCirlce.setImage(UIImage(named: "Happy2.png")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        profileCirlce.tintColor = User.sharedUser.color
         profileCirlce.addTarget(self, action: #selector(self.picTouched(_:)), for: .touchUpInside)
-        self.view.addSubview(profileCirlce)
+        containerView.addSubview(profileCirlce)
         
-        let editButton = UIButton(type: UIButtonType.custom)
-        editButton.frame = CGRect(x: 118, y: 118, width: 28, height: 28)
-        editButton.layer.cornerRadius = 0.5 * editButton.bounds.size.width
-        editButton.backgroundColor = Header.appColor
-        editButton.addTarget(self, action: #selector(self.picTouched(_:)), for: .touchUpInside)
-        self.view.addSubview(editButton)
-        
-        let editIcon = UIImageView(image: UIImage(named: "Entry.png")?.withRenderingMode(.alwaysTemplate))
-        editIcon.frame = CGRect(x: 5, y: 5, width: 18, height: 18)
-        editIcon.tintColor = UIColor.white
-        editButton.addSubview(editIcon)
-        
-        avatarImageView.frame = CGRect(x: 39, y: 88, width: 80, height: 80)
-        avatarImageView.tintColor = Header.appColor
-        self.view.addSubview(avatarImageView)
-        
-        let nameTextView = UITextView(frame: CGRect(x: 150, y: 72, width: width-150, height: 50))
-        nameTextView.delegate = self
-        nameTextView.text = User.sharedUser.name
-        nameTextView.font =  UIFont(name:"HelveticaNeue-Bold", size: 40)!
-        nameTextView.textColor = Header.appColor
-        nameTextView.backgroundColor = UIColor.clear
-        nameTextView.isScrollEnabled = false
-        nameTextView.returnKeyType = UIReturnKeyType.done
-        self.view.addSubview(nameTextView)
-        
-        levelLabel.frame = CGRect(x: 156, y: 127, width: 130, height: 40)
-        levelLabel.text = "Level \(User.sharedUser.level)"
-        levelLabel.font = UIFont(name:"HelveticaNeue-Thin", size: 35)!
-        levelLabel.textColor = Header.appColor
-        self.view.addSubview(levelLabel)
-        
-        xpBar = UIView(frame: CGRect(x: 75/2, y: 200, width: 300, height: 10))
-        xpBar.backgroundColor = UIColor.lightGray
-        xpBar.layer.cornerRadius = xpBar.bounds.height/2
-        self.view.addSubview(xpBar)
-        configureXpProgress()
-        
-        xpLabel.frame = CGRect(x: 0, y: 210, width: self.width, height: 40)
-        xpLabel.text = "\(User.sharedUser.xp) / \(20*User.sharedUser.level-10)"
-        xpLabel.textAlignment = NSTextAlignment.center
-        xpLabel.font = UIFont(name:"HelveticaNeue-Thin", size: 21)!
-        xpLabel.textColor = Header.appColor
-        self.view.addSubview(xpLabel)
-        
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
+        cameraButton.frame = CGRect(x: 19, y: 69, width: 15, height: 15, scale: true)
+        cameraButton.layer.cornerRadius = cameraButton.bounds.size.width/2
+        cameraButton.setImage(UIImage(named: "Camera.png")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        cameraButton.tintColor = User.sharedUser.color
+        cameraButton.addTarget(self, action: #selector(self.picTouched(_:)), for: .touchUpInside)
+        containerView.addSubview(cameraButton)
         
         if User.sharedUser.proPic.image.debugDescription != "nil" {
             profileCirlce.setImage(User.sharedUser.proPic.image, for: .normal)
             profileCirlce.imageView?.layer.cornerRadius = (profileCirlce.imageView?.frame.height)!/2
-            avatarImageView.isHidden = true
+            cameraButton.isHidden = true
         }
+        
+        let nameTextView = UITextView(frame: CGRect(x: 115, y: 11, width: width, height: 50, scale: true))
+        nameTextView.delegate = self
+        nameTextView.text = User.sharedUser.name
+        if nameTextView.text == "" {
+            nameTextView.text = "Enter name here"
+        }
+        nameTextView.font =  UIFont(name:"HelveticaNeue-Medium", size: 30, scale: 3)
+        nameTextView.textColor = User.sharedUser.color
+        nameTextView.backgroundColor = UIColor.clear
+        nameTextView.isScrollEnabled = false
+        nameTextView.returnKeyType = UIReturnKeyType.done
+        containerView.addSubview(nameTextView)
+        
+        levelLabel.frame = CGRect(x: 120, y: 51, width: 150, height: 40, scale: true)
+        levelLabel.font = UIFont(name:"HelveticaNeue-Light", size: 25, scale: 3)
+        levelLabel.textColor = User.sharedUser.color
+        containerView.addSubview(levelLabel)
+        
+        xpBar = UIView(frame: CGRect(x: 75/2, y: 111, width: 300, height: 15, scale: true))
+        xpBar.backgroundColor = UIColor.lightGray
+        xpBar.layer.cornerRadius = xpBar.bounds.height/2
+        containerView.addSubview(xpBar)
+        
+        xpLabel.frame = CGRect(x: 0, y: 126, width: self.width, height: 35, scale: true)
+        xpLabel.textAlignment = NSTextAlignment.center
+        xpLabel.font = UIFont(name:"HelveticaNeue-Light", size: 18)!
+        xpLabel.textColor = User.sharedUser.color
+        containerView.addSubview(xpLabel)
+        
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
         
         setUpStats()
     }
     
-    // Called when the user presses a key on the keyboard
-    func textViewDidChange(_ textView: UITextView) {
-        if textView.text.characters.count > nameCharLimit {
-            textView.text.remove(at: textView.text.index(before: textView.text.endIndex))
-        }
+    // Readjusts the UIScrollView
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.frame = CGRect(x: 0, y: 64, width: 375, height: 554, scale: true)
+        containerView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
     }
     
     // Called when the user presses "done"
@@ -133,6 +132,15 @@ class ProfileController: UIViewController, UINavigationControllerDelegate, UIIma
         actionSheetController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in })
         actionSheetController.addAction(addPhotoAction(title: "Take Picture", source: .camera, message: "Sorry, the camera is inaccessible"))
         actionSheetController.addAction(addPhotoAction(title: "Choose From Photos", source: .photoLibrary, message: "Sorry, the photo gallery is inaccessible"))
+        
+        if User.sharedUser.proPic.image.debugDescription != "nil" {
+            actionSheetController.addAction(UIAlertAction(title: "Delete Current Picture", style: .default) { action -> Void in
+                User.sharedUser.proPic = UIImageView()
+                self.profileCirlce.setImage(UIImage(named: "Happy2.png")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                self.cameraButton.isHidden = false
+            })
+        }
+        
         self.present(actionSheetController, animated: true, completion: nil)
     }
     
@@ -162,7 +170,7 @@ class ProfileController: UIViewController, UINavigationControllerDelegate, UIIma
         User.sharedUser.proPic.image = chosenImage
         profileCirlce.setImage(chosenImage, for: .normal)
         profileCirlce.imageView?.layer.cornerRadius = (profileCirlce.imageView?.frame.height)!/2
-        avatarImageView.isHidden = true
+        cameraButton.isHidden = true
         dismiss(animated:true, completion: nil)
     }
     
@@ -171,49 +179,56 @@ class ProfileController: UIViewController, UINavigationControllerDelegate, UIIma
         dismiss(animated: true, completion: nil)
     }
     
+    // Creates the bar that displays the user's progress to the next level
     func configureXpProgress() {
         xpProgress.removeFromSuperview()
-        xpProgress = UIView(frame: CGRect(x: 75/2, y: 200, width: 300*User.sharedUser.xp/(20*User.sharedUser.level-10), height: 10))
-        xpProgress.backgroundColor = Header.appColor
+        xpProgress = UIView(frame: CGRect(x: 75/2, y: 111, width: 300*User.sharedUser.xp/(20*User.sharedUser.level-10), height: 15, scale: true))
+        xpProgress.backgroundColor = User.sharedUser.color
         let maskPath = UIBezierPath(roundedRect: xpProgress.bounds, byRoundingCorners: [.bottomLeft, .topLeft], cornerRadii: CGSize(width: xpProgress.bounds.height/2, height: xpProgress.bounds.height/2))
         let shape = CAShapeLayer()
         shape.path = maskPath.cgPath
         xpProgress.layer.mask = shape
-        self.view.addSubview(xpProgress)
+        containerView.addSubview(xpProgress)
     }
     
+    // Creates the user's statistics on the lower half of their profile
     func setUpStats() {
         let stats = [UIView(), UIView(), UIView(), UIView()]
         let nums = [User.sharedUser.streakDates.count, User.sharedUser.longestStreak, getTotalFullDays(), getTotalGoodThings()]
         let strings = ["Current Streak", "Longest Streak", "Total Completed Days", "Total Good Things"]
         var textLabels = [UILabel]()
         
-        let statsHeight = self.height-250-49
+        var statsHeight = self.height-250-49
+        if Int(UIScreen.main.bounds.width) == 320 {
+            statsHeight -= 10
+        }
+        let statHeight = statsHeight/4-10
         
         for i in 0 ..< stats.count {
-            stats[i].frame = CGRect(x: 0, y: 255+i*statsHeight/4, width: self.width, height: statsHeight/4-3)
+            stats[i].frame = CGRect(x: 10, y: 186+i*statsHeight/4, width: self.width-20, height: statHeight, scale: true)
+            stats[i].layer.cornerRadius = 10
             stats[i].backgroundColor = UIColor.white
-            self.view.addSubview(stats[i])
+            containerView.addSubview(stats[i])
             
-            numLabels.append(makeLabel(label: UILabel(), text: "\(nums[i])", rect: CGRect(x: 0, y: 0, width: self.width/4, height: statsHeight/4-3), font: UIFont(name:"HelveticaNeue-Bold", size: 30)!))
+            numLabels.append(makeLabel(label: UILabel(), text: "\(nums[i])", rect: CGRect(x: 0, y: 0, width: self.width/4, height: statHeight, scale: true), font: UIFont(name:"HelveticaNeue-Medium", size: 30, scale: 1)))
             stats[i].addSubview(numLabels[i])
             
-            textLabels.append(makeLabel(label: UILabel(), text: strings[i], rect: CGRect(x: self.width/4, y: 0, width: self.width-(statsHeight/4-3), height: statsHeight/4-3), font: UIFont(name:"HelveticaNeue-Thin", size: 23)!))
+            textLabels.append(makeLabel(label: UILabel(), text: strings[i], rect: CGRect(x: self.width/4, y: 0, width: self.width-statHeight, height: statHeight, scale: true), font: UIFont(name:"HelveticaNeue-Light", size: 23, scale: 1)))
             textLabels[i].textAlignment = .left
             stats[i].addSubview(textLabels[i])
         }
     }
     
-    // Displays the title text of the tab in the center of the header
     func makeLabel(label: UILabel, text: String, rect: CGRect, font: UIFont) -> UILabel{
         label.frame = rect
         label.text = text
         label.font = font
-        label.textColor = Header.appColor
+        label.textColor = User.sharedUser.color
         label.textAlignment = NSTextAlignment.center
         return label
     }
     
+    // Returns the amount of filled-in days
     func getTotalFullDays() -> Int {
         var sum = 0
         for key in User.sharedUser.days.keys {
@@ -224,6 +239,7 @@ class ProfileController: UIViewController, UINavigationControllerDelegate, UIIma
         return sum
     }
     
+    // Returns the amount of individual good things
     func getTotalGoodThings() -> Int {
         var sum = 0
         for key in User.sharedUser.days.keys {
@@ -237,10 +253,11 @@ class ProfileController: UIViewController, UINavigationControllerDelegate, UIIma
         return sum
     }
     
+    // Updates the views on the screen when this tab is opened
     func updateUserProgress() {
         levelLabel.text = "Level \(User.sharedUser.level)"
         configureXpProgress()
-        xpLabel.text = "\(20*User.sharedUser.level-10-User.sharedUser.xp) experience to level up"
+        xpLabel.text = "\(20*User.sharedUser.level-10-User.sharedUser.xp) XP To Next Level"
         let nums = [User.sharedUser.streakDates.count, User.sharedUser.longestStreak, getTotalFullDays(), getTotalGoodThings()]
         for i in 0 ..< numLabels.count {
             numLabels[i].text = "\(nums[i])"

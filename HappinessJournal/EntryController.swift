@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelegate, UITabBarControllerDelegate {
     
@@ -16,36 +17,35 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
     var forwardDisabled = true
     var backwardDisabled = false
     var header: EntryHeader!
-    let width = Int(UIScreen.main.bounds.width)
-    let height = Int(UIScreen.main.bounds.height)
+    let width = 375
+    let height = 667
     var entryBoxes = Array<EntryBox>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Sets up the header, background, and other views
-        self.view.backgroundColor = Header.appColor
+        self.view.backgroundColor = User.sharedUser.color
         header = EntryHeader()
         header.delegate = self
         self.view.addSubview(header)
-        let headerBottomBorder = UIView(frame: CGRect(x: 0.0, y: 63.5, width: Double(width), height: 0.5))
+        let headerBottomBorder = UIView(frame: CGRect(x: 0.0, y: 63.5, width: Double(width), height: 0.5, scale: true))
         headerBottomBorder.backgroundColor = UIColor.lightGray
         self.view.addSubview(headerBottomBorder)
         
         self.tabBarController?.delegate = self
         
         let promptLabel = UILabel()
-        promptLabel.frame = CGRect(x: width/2 - 150, y: 64, width: 300, height: 52)
+        promptLabel.frame = CGRect(x: width/2 - 150, y: 64, width: 300, height: 52, scale: true)
         promptLabel.text = "What went well today?"
-        promptLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 23)!
+        promptLabel.font = UIFont(name:"HelveticaNeue-Medium", size: 23)!
         promptLabel.textColor = UIColor.white
         promptLabel.textAlignment = NSTextAlignment.center
         self.view.addSubview(promptLabel)
         
         scrollView = UIScrollView()
         scrollView.delegate = self
-        scrollView.contentSize = CGSize(width: self.width, height: User.sharedUser.goal*165+10)
-        containerView = UIView()
+        scrollView.contentSize = CGSize(width: self.width, height: User.sharedUser.goal*165+10, scale: true)
         scrollView.addSubview(containerView)
         self.view.addSubview(scrollView)
         
@@ -55,7 +55,6 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
         view.addGestureRecognizer(tap)
         
         // Loads previous data from the device (if applicable)
-        //resetData()
         if let savedUser = UserDefaults.standard.object(forKey: "user") as? Data {
             User.sharedUser = NSKeyedUnarchiver.unarchiveObject(with: savedUser) as! User
             header.updateStreakIcon()
@@ -63,14 +62,15 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
             checkStreak()
         } else {
             User.sharedUser.days.updateValue(createDay(fromDate: pageDate), forKey: createDayString(fromDate: pageDate))
-            shiftToIntro()
         }
+        
+        configureBoxes()
     }
     
     // Readjusts the UIScrollView
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.frame = CGRect(x: 0, y: 116, width: self.width, height: self.height-64-52-49)
+        scrollView.frame = CGRect(x: 0, y: 116, width: self.width, height: self.height-64-52-49, scale: true)
         containerView.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
     }
     
@@ -89,6 +89,7 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
         configureHeaderButtons(forwardBool: Calendar.current.isDateInToday(pageDate), backwardBool: User.sharedUser.startDate.days(from: pageDate) == 2)
     }
     
+    // Decides whether the buttons on the header are hidden or not
     func configureHeaderButtons(forwardBool: Bool, backwardBool: Bool) {
         forwardDisabled = forwardBool
         header.forwardButton.showsTouchWhenHighlighted = !forwardBool
@@ -98,7 +99,7 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
         if forwardBool {
             header.forwardButton.tintColor = UIColor.white
         } else {
-            header.forwardButton.tintColor = Header.appColor
+            header.forwardButton.tintColor = User.sharedUser.color
         }
         
         backwardDisabled = backwardBool
@@ -106,7 +107,7 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
         if backwardBool {
             header.backwardButton.tintColor = UIColor.white
         } else {
-            header.backwardButton.tintColor = Header.appColor
+            header.backwardButton.tintColor = User.sharedUser.color
         }
     }
     
@@ -135,6 +136,7 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
     
     // Saves the text from an EntryBox when it is changed
     func textChanged() {
+        configureBoxes()
         let dayStr = createDayString(fromDate: pageDate)
         if !User.sharedUser.days.keys.contains(dayStr) {
             let newDay = createDay(fromDate: pageDate)
@@ -169,6 +171,20 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
                 entryBoxes[i].textView.text = ""
             }
             entryBoxes[i].resetBoxIfAppropriate()
+        }
+        configureBoxes()
+    }
+    
+    // Decides which box should have the type prompt in it
+    func configureBoxes() {
+        var shouldContinue = false
+        for entry in entryBoxes {
+            if shouldContinue {
+                break
+            } else if entry.textView.text == "" || entry.textView.text == "Press here to begin typing..." {
+                entry.resetBoxToPrompt()
+                shouldContinue = true
+            }
         }
     }
     
@@ -214,6 +230,7 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
         }
     }
     
+    // Adds experience points to the user
     func addXpToUser(num: Int) {
         let pastLevel = User.sharedUser.level
         User.sharedUser.addXP(num: num)
@@ -243,5 +260,42 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
         } else {
             header.updateStreakIcon()
         }
+    }
+}
+
+// Extension of CGRect that resizes all views based on screen size
+extension CGRect {
+    init(x: Int, y: Int, width: Int, height: Int, scale: Bool) {
+        let multW = Double(UIScreen.main.bounds.width)/375
+        let multH = Double(UIScreen.main.bounds.height)/667
+        self.init(x: Double(x)*multW, y: Double(y)*multH, width: Double(width)*multW, height: Double(height)*multH)
+    }
+    init(x: Double, y: Double, width: Double, height: Double, scale: Bool) {
+        let multW = Double(UIScreen.main.bounds.width)/375
+        let multH = Double(UIScreen.main.bounds.height)/667
+        self.init(x: x*multW, y: y*multH, width: width*multW, height: height*multH)
+    }
+    init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, scale: Bool) {
+        let multW = Double(UIScreen.main.bounds.width)/375
+        let multH = Double(UIScreen.main.bounds.height)/667
+        self.init(x: Double(x)*multW, y: Double(y)*multH, width: Double(width)*multW, height: Double(height)*multH)
+    }
+}
+
+// Extension of CGSizes that resizes based on screen size
+extension CGSize {
+    init(width: Int, height: Int, scale: Bool) {
+        self.init(width: Double(width)*Double(UIScreen.main.bounds.width)/375, height: Double(height)*Double(UIScreen.main.bounds.height)/667)
+    }
+}
+
+// Scales font based on screen size
+extension UIFont {
+    convenience init(name: String, size: CGFloat, scale: CGFloat) {
+        var i = CGFloat(0)
+        if Int(UIScreen.main.bounds.width) == 320 {
+            i = scale
+        }
+        self.init(name: name, size: size-i)!
     }
 }

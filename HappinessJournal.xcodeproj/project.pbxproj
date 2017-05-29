@@ -11,10 +11,15 @@
 		4D2AD4311E31932200C832CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D2AD4301E31932200C832CC /* Main.storyboard */; };
 		4D2AD4331E31973600C832CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D2AD4321E31973600C832CC /* LaunchScreen.storyboard */; };
 		4D3BC0631E416BA800644A45 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3BC0621E416BA800644A45 /* Day.swift */; };
+		4D4CB26E1ECB485B000BEEE7 /* StoreItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4CB26D1ECB485B000BEEE7 /* StoreItem.swift */; };
+		4D4CB2701ECB5AF1000BEEE7 /* IntroPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4CB26F1ECB5AF1000BEEE7 /* IntroPageController.swift */; };
+		4D4CB2731ECB5B9B000BEEE7 /* PageOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4CB2721ECB5B9B000BEEE7 /* PageOne.swift */; };
+		4D4CB2751ECB5BB3000BEEE7 /* PageTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4CB2741ECB5BB3000BEEE7 /* PageTwo.swift */; };
+		4D4CB2771ECB5BBC000BEEE7 /* PageThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4CB2761ECB5BBC000BEEE7 /* PageThree.swift */; };
 		4D6324B71E5236A0007B74F5 /* HistoryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6324B61E5236A0007B74F5 /* HistoryBox.swift */; };
 		4D6DF0F71E382CB200C20AF2 /* EntryBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6DF0F61E382CB200C20AF2 /* EntryBox.swift */; };
 		4D6F0C8F1E1031FB008A3934 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F0C8E1E1031FB008A3934 /* Header.swift */; };
-		4D7223F31E6B3BB300ECCE8B /* IntroController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7223F21E6B3BB300ECCE8B /* IntroController.swift */; };
+		4D7EB1251ECF4EBF001C9488 /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7EB1241ECF4EBF001C9488 /* AboutController.swift */; };
 		4D804ED81E4793CC00AED9BC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D804ED71E4793CC00AED9BC /* User.swift */; };
 		4DC56E6F1E4FCC92006EB3A4 /* CalMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC56E6E1E4FCC92006EB3A4 /* CalMonth.swift */; };
 		4DC56E711E4FCD45006EB3A4 /* CalDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC56E701E4FCD45006EB3A4 /* CalDay.swift */; };
@@ -28,6 +33,7 @@
 		4DC9AC391DFF7D68000703FF /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC9AC381DFF7D68000703FF /* HistoryController.swift */; };
 		4DC9AC3D1DFF7D89000703FF /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC9AC3C1DFF7D89000703FF /* SettingsController.swift */; };
 		4DDC3CAD1EB802C900862F98 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDC3CAC1EB802C800862F98 /* AlertController.swift */; };
+		4DED2F261EC5F212000D1C36 /* StoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DED2F251EC5F212000D1C36 /* StoreController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,10 +58,15 @@
 		4D2AD4301E31932200C832CC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4D2AD4321E31973600C832CC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4D3BC0621E416BA800644A45 /* Day.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
+		4D4CB26D1ECB485B000BEEE7 /* StoreItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreItem.swift; sourceTree = "<group>"; };
+		4D4CB26F1ECB5AF1000BEEE7 /* IntroPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroPageController.swift; sourceTree = "<group>"; };
+		4D4CB2721ECB5B9B000BEEE7 /* PageOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageOne.swift; sourceTree = "<group>"; };
+		4D4CB2741ECB5BB3000BEEE7 /* PageTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageTwo.swift; sourceTree = "<group>"; };
+		4D4CB2761ECB5BBC000BEEE7 /* PageThree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageThree.swift; sourceTree = "<group>"; };
 		4D6324B61E5236A0007B74F5 /* HistoryBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryBox.swift; sourceTree = "<group>"; };
 		4D6DF0F61E382CB200C20AF2 /* EntryBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryBox.swift; sourceTree = "<group>"; };
 		4D6F0C8E1E1031FB008A3934 /* Header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
-		4D7223F21E6B3BB300ECCE8B /* IntroController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroController.swift; sourceTree = "<group>"; };
+		4D7EB1241ECF4EBF001C9488 /* AboutController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
 		4D804ED71E4793CC00AED9BC /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4DC56E6E1E4FCC92006EB3A4 /* CalMonth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalMonth.swift; sourceTree = "<group>"; };
 		4DC56E701E4FCD45006EB3A4 /* CalDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalDay.swift; sourceTree = "<group>"; };
@@ -75,6 +86,7 @@
 		4DC9AC381DFF7D68000703FF /* HistoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		4DC9AC3C1DFF7D89000703FF /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		4DDC3CAC1EB802C800862F98 /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		4DED2F251EC5F212000D1C36 /* StoreController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +114,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D4CB2711ECB5B7C000BEEE7 /* Intro */ = {
+			isa = PBXGroup;
+			children = (
+				4D4CB26F1ECB5AF1000BEEE7 /* IntroPageController.swift */,
+				4D4CB2721ECB5B9B000BEEE7 /* PageOne.swift */,
+				4D4CB2741ECB5BB3000BEEE7 /* PageTwo.swift */,
+				4D4CB2761ECB5BBC000BEEE7 /* PageThree.swift */,
+			);
+			name = Intro;
+			sourceTree = "<group>";
+		};
 		4DC9ABF31DFF6386000703FF = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +196,7 @@
 				4DC56E6E1E4FCC92006EB3A4 /* CalMonth.swift */,
 				4D6F0C8E1E1031FB008A3934 /* Header.swift */,
 				4D6324B61E5236A0007B74F5 /* HistoryBox.swift */,
+				4D4CB26D1ECB485B000BEEE7 /* StoreItem.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -180,13 +204,15 @@
 		4DC9AC311DFF74AC000703FF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4D4CB2711ECB5B7C000BEEE7 /* Intro */,
 				4DDC3CAC1EB802C800862F98 /* AlertController.swift */,
 				4DC9AC341DFF7D2D000703FF /* CalendarController.swift */,
 				4DC9AC321DFF7B25000703FF /* EntryController.swift */,
 				4DC9AC381DFF7D68000703FF /* HistoryController.swift */,
-				4D7223F21E6B3BB300ECCE8B /* IntroController.swift */,
 				4DC9AC361DFF7D54000703FF /* ProfileController.swift */,
 				4DC9AC3C1DFF7D89000703FF /* SettingsController.swift */,
+				4DED2F251EC5F212000D1C36 /* StoreController.swift */,
+				4D7EB1241ECF4EBF001C9488 /* AboutController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -333,17 +359,23 @@
 				4DC56E6F1E4FCC92006EB3A4 /* CalMonth.swift in Sources */,
 				4DC9AC371DFF7D54000703FF /* ProfileController.swift in Sources */,
 				4D6324B71E5236A0007B74F5 /* HistoryBox.swift in Sources */,
+				4D4CB2771ECB5BBC000BEEE7 /* PageThree.swift in Sources */,
 				4DC9AC331DFF7B25000703FF /* EntryController.swift in Sources */,
+				4D7EB1251ECF4EBF001C9488 /* AboutController.swift in Sources */,
 				4D3BC0631E416BA800644A45 /* Day.swift in Sources */,
 				4DC9AC3D1DFF7D89000703FF /* SettingsController.swift in Sources */,
 				4D0F51561E21CE9F008F8841 /* EntryHeader.swift in Sources */,
 				4DC9AC351DFF7D2D000703FF /* CalendarController.swift in Sources */,
+				4D4CB2751ECB5BB3000BEEE7 /* PageTwo.swift in Sources */,
+				4DED2F261EC5F212000D1C36 /* StoreController.swift in Sources */,
+				4D4CB2701ECB5AF1000BEEE7 /* IntroPageController.swift in Sources */,
 				4D804ED81E4793CC00AED9BC /* User.swift in Sources */,
+				4D4CB26E1ECB485B000BEEE7 /* StoreItem.swift in Sources */,
 				4DC9AC001DFF6389000703FF /* AppDelegate.swift in Sources */,
 				4D6DF0F71E382CB200C20AF2 /* EntryBox.swift in Sources */,
 				4DC56E711E4FCD45006EB3A4 /* CalDay.swift in Sources */,
 				4DDC3CAD1EB802C900862F98 /* AlertController.swift in Sources */,
-				4D7223F31E6B3BB300ECCE8B /* IntroController.swift in Sources */,
+				4D4CB2731ECB5B9B000BEEE7 /* PageOne.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +514,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HappinessJournal/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AsherDale.HappinessJournal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -494,6 +527,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HappinessJournal/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AsherDale.HappinessJournal;
 				PRODUCT_NAME = "$(TARGET_NAME)";

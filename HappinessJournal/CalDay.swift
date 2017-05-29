@@ -14,18 +14,19 @@ protocol CalDayDelegate {
 
 class CalDay: UIButton {
     
-    let width = Int(UIScreen.main.bounds.width)
+    let width = 375
     var month: CalMonth
     var dayText: String
     var delegate: CalDayDelegate!
     
+    // Initializes the object
     init(frame: CGRect, parentMonth: CalMonth, day: String) {
         month = parentMonth
         delegate = month.parent
         dayText = day
         super.init(frame: frame)
         self.setTitle(dayText, for: .normal)
-        self.titleLabel?.font = UIFont(name:"HelveticaNeue-Thin", size: 17)!
+        self.titleLabel?.font = UIFont(name:"HelveticaNeue-Light", size: 17)!
         self.titleLabel?.textAlignment = NSTextAlignment.center
         self.layer.cornerRadius = 0.5 * self.bounds.size.width
         self.addTarget(self, action: #selector(self.dayTouched(_:)), for: .touchUpInside)
@@ -40,7 +41,7 @@ class CalDay: UIButton {
     // Determines if a calDay is enabled and filled-in
     override func setTitle(_ title: String?, for state: UIControlState) {
         self.setTitleColor(UIColor.lightGray, for: .normal)
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = UIColor.clear
         isEnabled = false
         if dayText != "" {
             let date = Calendar.current.date(bySetting: .day, value: Int(dayText)!, of: month.parent.pageDate)!
@@ -49,11 +50,11 @@ class CalDay: UIButton {
                 self.setTitleColor(UIColor.black, for: .normal)
                 let dayStr = createDayString(fromDate: date)
                 if User.sharedUser.days[dayStr]?.isComplete != nil && User.sharedUser.days[dayStr]!.isComplete {
-                    self.backgroundColor = Header.appColor
+                    self.backgroundColor = User.sharedUser.color
                 }
             }
         }
-        super.setTitle(title, for: state)
+        super.setTitle(dayText, for: state)
     }
     
     // Create a string from the specified date in the format of "mm/dd/yyyy"

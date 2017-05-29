@@ -20,8 +20,10 @@ class EntryHeader: Header {
     var backwardButton = UIButton()
     let todayButton = UIButton()
     
+    // Initializes the object
     init() {
         super.init(title: "Entry")
+        self.layer.cornerRadius = 5
         showHeaderButtons()
     }
     
@@ -48,21 +50,36 @@ class EntryHeader: Header {
             suffix = "th"
         }
         self.title.insert(contentsOf: suffix.characters, at: self.title.index(self.title.startIndex, offsetBy: (pos)))
-        makeDateTitle(rect: CGRect(x: self.width/2-100, y: 26, width: 200, height: 30), font: UIFont(name:"HelveticaNeue-Bold", size: 17)!)
+        makeDateTitle(rect: CGRect(x: self.width/2-100, y: 26, width: 200, height: 30, scale: true), font: UIFont(name:"HelveticaNeue-Medium", size: 17, scale: 2.3))
     }
     
     // Displays the buttons on the header
     func showHeaderButtons() {
-        todayButton.frame = CGRect(x: self.width-60, y: 26, width: 50, height: 30)
+        todayButton.frame = CGRect(x: self.width-60, y: 26, width: 50, height: 30, scale: true)
         todayButton.setTitle("Today", for: .normal)
-        todayButton.setTitleColor(Header.appColor, for: .normal)
+        todayButton.setTitleColor(User.sharedUser.color, for: .normal)
+        todayButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 19, scale: 3)
         todayButton.addTarget(self, action: #selector(self.todayButtonPressed(_:)), for:.touchUpInside)
         todayButton.isHidden = true
         self.addSubview(todayButton)
         
-        backwardButton = makeButton(fileName: "Backward.png", buttonX: self.width/2-112, selector: #selector(self.backwardArrowPressed(_:)), showTouch: true)
-        forwardButton = makeButton(fileName: "Forward.png", buttonX: self.width/2+90, selector: #selector(self.forwardArrowPressed(_:)), showTouch: false)
+        
+        backwardButton = makeButton(fileName: "Backward.png", buttonX: self.width/2-113, selector: #selector(self.backwardArrowPressed(_:)), showTouch: true)
+        forwardButton = makeButton(fileName: "Forward.png", buttonX: self.width/2+87, selector: #selector(self.forwardArrowPressed(_:)), showTouch: false)
         forwardButton.tintColor = UIColor.white
+    }
+    
+    // Loads and places a button icon on a specified part of the header
+    func makeButton(fileName: String, buttonX: Int, selector: Selector, showTouch: Bool) -> UIButton {
+        let image = UIImage(named: fileName)?.withRenderingMode(.alwaysTemplate)
+        let button = UIButton(type: UIButtonType.custom)
+        button.frame = CGRect(x: buttonX, y: 29, width: 26, height: 26, scale: true)
+        button.setImage(image, for: .normal)
+        button.tintColor = User.sharedUser.color
+        button.addTarget(self, action: selector, for: .touchUpInside)
+        button.showsTouchWhenHighlighted = showTouch
+        self.addSubview(button)
+        return button
     }
     
     // Creates the label that shows the date in the middle of the header
@@ -70,7 +87,7 @@ class EntryHeader: Header {
         dateLabel.frame = rect
         dateLabel.text = self.title
         dateLabel.font = font
-        dateLabel.textColor = Header.appColor
+        dateLabel.textColor = User.sharedUser.color
         dateLabel.textAlignment = NSTextAlignment.center
         self.addSubview(dateLabel)
     }
