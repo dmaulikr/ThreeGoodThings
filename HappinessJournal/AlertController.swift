@@ -70,7 +70,7 @@ class AlertController: UIViewController {
                 let alertController = UIAlertController(title: "Rate Three Good Things!", message: "If you love the app, could you please take a quick second to rate us in the App Store? It would mean a lot :)", preferredStyle: .alert)
                 let cancel = UIAlertAction(title: "Cancel", style: .default ) { action in }
                 let okAction = UIAlertAction(title: "Rate", style: .default ) { action in
-                    let appID = "(Your App ID on App Store)"
+                    let appID = 1242079576
                     if let url = URL(string: "itms-apps://itunes.apple.com/app/viewContentsUserReviews?id=\(appID)") {
                         UIApplication.shared.open(url)
                     }
@@ -80,7 +80,17 @@ class AlertController: UIViewController {
                 entryCon.present(alertController, animated: true) {}
             }
         } else {
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in }
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+                if granted && User.sharedUser.level == 2 {
+                    let setCon = tabBarCon.viewControllers![4] as! SettingsController
+                    DispatchQueue.main.async(execute: {
+                        tabBarCon.selectedIndex = 4
+                        tabBarCon.selectedIndex = 2
+                        setCon.reminderSwitch.setOn(true, animated: false)
+                        setCon.switchToggled(setCon.reminderSwitch)
+                    })
+                }
+            }
         }
         
         if User.sharedUser.level == pastLevel {

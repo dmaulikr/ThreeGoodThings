@@ -48,6 +48,7 @@ class EntryBox: UIView, UITextViewDelegate {
         textView.textColor = UIColor.gray
         textView.isScrollEnabled = false
         textView.returnKeyType = UIReturnKeyType.done
+        textView.spellCheckingType = .no
         self.addSubview(textView)
         
         charLabel.frame = CGRect(x: 300, y: 120, width: 50, height: 30, scale: true)

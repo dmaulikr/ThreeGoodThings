@@ -285,7 +285,7 @@
 				TargetAttributes = {
 					4DC9ABFB1DFF6387000703FF = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = ZRUHU2DP9K;
+						DevelopmentTeam = 4568UZ4JP6;
 						ProvisioningStyle = Automatic;
 					};
 					4DC9AC111DFF638A000703FF = {
@@ -513,10 +513,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4568UZ4JP6;
 				INFOPLIST_FILE = HappinessJournal/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.AsherDale.HappinessJournal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AsherDale.ThreeGoodThings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -526,10 +527,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4568UZ4JP6;
 				INFOPLIST_FILE = HappinessJournal/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.AsherDale.HappinessJournal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AsherDale.ThreeGoodThings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

@@ -58,8 +58,8 @@ class SettingsController: UIViewController, UIScrollViewDelegate {
         bottomView.addSubview(createSetting(yVal: 0, text: "About", selector: #selector(self.showAboutController(_:))))
         bottomView.addSubview(createSetting(yVal: settingHeight, text: "Send feedback or suggestions", selector: #selector(self.sendEmail(_:))))
         bottomView.addSubview(createSetting(yVal: settingHeight*2, text: "Contact the developer", selector: #selector(self.sendEmail(_:))))
-        bottomView.addSubview(createSetting(yVal: settingHeight*3, text: "Three Good Things on Facebook", selector: #selector(self.toFacebook(_:))))
-        bottomView.addSubview(createSetting(yVal: settingHeight*4, text: "Love the app? Rate us in the App Store", selector: #selector(self.rateApp(_:))))
+        bottomView.addSubview(createSetting(yVal: settingHeight*3 + breakHeight, text: "Three Good Things on Facebook", selector: #selector(self.toFacebook(_:))))
+        bottomView.addSubview(createSetting(yVal: settingHeight*4 + breakHeight, text: "Love the app? Rate us in the App Store", selector: #selector(self.rateApp(_:))))
         
         //bottomView.addSubview(createSetting(yVal: settingHeight*5 + breakHeight, text: "Store", selector: #selector(self.showStoreController(_:))))
         
@@ -243,19 +243,18 @@ class SettingsController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    // Sends the user to the facebook page
     func toFacebook(_ sender: UIButton) {
         if UIApplication.shared.canOpenURL(URL(string: "fb://page/?id=1793191400995847")!){
             UIApplication.shared.open(URL(string: "fb://page/?id=1793191400995847")!)
-            print("1")
         } else if let url = URL(string: "https://www.facebook.com/Three-Good-Things-A-Happiness-Journal-for-iOS-1793191400995847/?view_public_for=1793191400995847") {
             UIApplication.shared.open(url)
-            print("2")
         }
-        print("3")
     }
     
+    // Sends the user to the app's page on the app store
     func rateApp(_ sender: UIButton) {
-        let appID = "(Your App ID on App Store)"
+        let appID = 1242079576
         if let url = URL(string: "itms-apps://itunes.apple.com/app/viewContentsUserReviews?id=\(appID)") {
             UIApplication.shared.open(url)
         }

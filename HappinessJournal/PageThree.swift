@@ -103,6 +103,7 @@ class PageThree: PageOne, UITextFieldDelegate, UIScrollViewDelegate {
         return true
     }
     
+    // Called when the user begins to enter their name
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.textColor = User.sharedUser.color
         textField.text = ""

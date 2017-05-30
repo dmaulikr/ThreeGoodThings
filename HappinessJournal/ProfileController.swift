@@ -219,6 +219,7 @@ class ProfileController: UIViewController, UITextViewDelegate, UIImagePickerCont
         }
     }
     
+    // Crates and returns a UILabel
     func makeLabel(label: UILabel, text: String, rect: CGRect, font: UIFont) -> UILabel{
         label.frame = rect
         label.text = text

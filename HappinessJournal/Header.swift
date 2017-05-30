@@ -39,7 +39,10 @@ class Header: UIView {
         
         streakLabel.frame = CGRect(x: 0, y: 0, width: streakIcon.frame.width, height: streakIcon.frame.height)
         streakLabel.text = "\(User.sharedUser.streakDates.count)"
-        streakLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 17)!
+        if streakLabel.text!.characters.count > 1 {
+            streakLabel.frame.origin.x -= 2
+        }
+        streakLabel.font = UIFont(name:"HelveticaNeue-Bold", size: 17, scale: 2)
         streakLabel.textColor = User.sharedUser.color
         streakLabel.textAlignment = NSTextAlignment.center
         streakIcon.addSubview(streakLabel)
@@ -54,7 +57,7 @@ class Header: UIView {
     
     // Updates the number in the streak icon
     func updateStreakIcon() {
-        streakLabel.text = String(User.sharedUser.streakDates.count)
+        streakLabel.text = "\(User.sharedUser.streakDates.count)"
     }
 
     // Displays the title text of the tab in the center of the header

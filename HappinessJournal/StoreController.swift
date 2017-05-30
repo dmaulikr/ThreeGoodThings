@@ -112,7 +112,7 @@ class StoreController: UIViewController {
         sender.frame.origin.y -= 5
         
         let alertController = UIAlertController(title: "To see your new color theme, close and re-open the app!", message: "Thank you for supporting the developer :)", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "OK!", style: .default ) { action in print() }
+        let cancelAction = UIAlertAction(title: "OK!", style: .default ) { action in }
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true) {}
@@ -120,9 +120,7 @@ class StoreController: UIViewController {
     
     // Restores the user's purchases
     func restorePurchases(_ sender: UIButton) {
-        
-        // TODO: double check about reset
-        
+                
         User.sharedUser.boughtColor = false
         User.sharedUser.boughtMulti = false
         User.sharedUser.color = UIColor(hexString: "#4A86E8")
