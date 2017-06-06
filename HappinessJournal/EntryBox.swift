@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Social
 
 class EntryBox: UIView, UITextViewDelegate {
     
@@ -20,6 +21,10 @@ class EntryBox: UIView, UITextViewDelegate {
     let typePrompt = "Press here to begin typing..."
     var lastEntryEdited = ""
     
+    var twitter: UIButton!
+    var fb: UIButton!
+    let appLabel = UILabel()
+    
     // Initializes the object
     init(parentController: EntryController, boxNum: Int) {
         self.parent = parentController
@@ -28,10 +33,14 @@ class EntryBox: UIView, UITextViewDelegate {
         super.init(frame: CGRect(x: 15, y: yValue, width: width-30, height: 150, scale: true))
         self.backgroundColor = UIColor.white
         textView.delegate = self
+        self.addSubview(textView)
         self.layer.cornerRadius = 10
-        
+        makeLabel(label: appLabel, text: "Three Good Things - A Happiness Journal", rect: CGRect(x: 0, y: 120, width: width-30, height: 30, scale: true), font: UIFont(name:"HelveticaNeue-Medium", size: 16, scale: 3))
+        appLabel.isHidden = true
+        appLabel.backgroundColor = UIColor.white
         showIcon()
         createTextField()
+        socialButtons()
     }
     
     // Displays the smiley face on the left side of the EntryBox
@@ -49,7 +58,6 @@ class EntryBox: UIView, UITextViewDelegate {
         textView.isScrollEnabled = false
         textView.returnKeyType = UIReturnKeyType.done
         textView.spellCheckingType = .no
-        self.addSubview(textView)
         
         charLabel.frame = CGRect(x: 300, y: 120, width: 50, height: 30, scale: true)
         charLabel.font = UIFont(name:"HelveticaNeue-Light", size: 11)!
@@ -70,12 +78,14 @@ class EntryBox: UIView, UITextViewDelegate {
         textView.textColor = User.sharedUser.color
         charLabel.isHidden = false
         shouldHideHeaderButtons(true)
+        toggleSocial()
         
         parent.scrollView.setContentOffset(CGPoint(x: 0, y: yValue-52), animated: true)
     }
     
     // Called when the user presses a key on the keyboard
     func textViewDidChange(_ textView: UITextView) {
+        parent.scrollView.setContentOffset(CGPoint(x: 0, y: yValue-52), animated: true)
         var charCount = charLimit-textView.text.characters.count
         charLabel.text = "\(charCount)"
         if charCount < 0 {
@@ -105,6 +115,7 @@ class EntryBox: UIView, UITextViewDelegate {
         resetBoxIfAppropriate()
         parent.textChanged()
         shouldHideHeaderButtons(false)
+        toggleSocial()
     }
     
     // Resets the visual aspects of the textbox if there is no text inside of it
@@ -142,6 +153,77 @@ class EntryBox: UIView, UITextViewDelegate {
             parent.header.todayButton.isHidden = bool
             parent.header.todayButton.isEnabled = !bool
         }
+    }
+    
+    // Loads and places a button icon on a specified part of the header
+    func makeButton(fileName: String, buttonX: Int, selector: Selector) -> UIButton {
+        let button = UIButton(frame: CGRect(x: buttonX, y: 105, width: 25, height: 25, scale: true))
+        button.setImage(UIImage(named: fileName), for: .normal)
+        button.addTarget(self, action: selector, for: .touchUpInside)
+        self.addSubview(button)
+        return button
+    }
+    
+    // Displays the title text of the tab in the center of the header
+    func makeLabel(label: UILabel, text: String, rect: CGRect, font: UIFont) {
+        label.frame = rect
+        label.text = text
+        label.font = font
+        label.textColor = User.sharedUser.color
+        label.textAlignment = NSTextAlignment.center
+        self.addSubview(label)
+    }
+    
+    func socialButtons() {
+        fb = makeButton(fileName: "FB.png", buttonX: 20, selector: #selector(self.facebookPost(_:)))
+        twitter = makeButton(fileName: "Twitter.png", buttonX: 45, selector: #selector(self.tweet(_:)))
+        twitter.frame.origin.y -= 5
+        twitter.frame.size.width += 10
+        twitter.frame.size.height += 10
+        
+        toggleSocial()
+    }
+    
+    
+    func facebookPost(_ sender: UIButton) {
+        let vc = SLComposeViewController(forServiceType:SLServiceTypeFacebook)!
+        addImage(vc: vc)
+        vc.setInitialText("#threegoodthings")
+        parent.present(vc, animated: true, completion: nil)
+    }
+    
+    func tweet(_ sender: UIButton) {
+        let vc = SLComposeViewController(forServiceType:SLServiceTypeTwitter)!
+        addImage(vc: vc)
+        vc.setInitialText("\n#threegoodthings #happinessjournal @_3_good_things")
+        parent.present(vc, animated: true, completion: nil)
+    }
+    
+    func toggleSocial() {
+        fb.isEnabled = !fb.isEnabled
+        fb.isHidden = !fb.isHidden
+        twitter.isEnabled = !twitter.isEnabled
+        twitter.isHidden = !twitter.isHidden
+    }
+    
+    func addImage(vc: SLComposeViewController) {
+        fb.alpha = 0
+        twitter.alpha = 0
+        charLabel.isHidden = true
+        appLabel.isHidden = false
+        layer.cornerRadius = 0
+        textView.resignFirstResponder()
+        
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.isOpaque, 0.0)
+        self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        vc.add(image)
+        
+        layer.cornerRadius = 10
+        appLabel.isHidden = true
+        fb.alpha = 1
+        twitter.alpha = 1
     }
     
     required init?(coder aDecoder: NSCoder) {

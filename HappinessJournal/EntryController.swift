@@ -65,6 +65,14 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
         }
         
         configureBoxes()
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.containerView.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.containerView.addGestureRecognizer(swipeLeft)
     }
     
     // Readjusts the UIScrollView
@@ -87,6 +95,16 @@ class EntryController: UIViewController, UIScrollViewDelegate, EntryHeaderDelega
         let newDayStr = createDayString(fromDate: pageDate)
         showEntries(fromDayStr: newDayStr)
         configureHeaderButtons(forwardBool: Calendar.current.isDateInToday(pageDate), backwardBool: User.sharedUser.startDate.days(from: pageDate) == 2)
+    }
+    
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            if swipeGesture.direction == UISwipeGestureRecognizerDirection.left {
+                dateChanged(mod: "forward")
+            } else {
+                dateChanged(mod: "backward")
+            }
+        }
     }
     
     // Decides whether the buttons on the header are hidden or not

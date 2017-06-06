@@ -98,6 +98,8 @@ class PageThree: PageOne, UITextFieldDelegate, UIScrollViewDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if !textField.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).isEmpty {
             User.sharedUser.name = textField.text!
+            let savedData = NSKeyedArchiver.archivedData(withRootObject: User.sharedUser)
+            UserDefaults.standard.set(savedData, forKey: "user")
             self.performSegue(withIdentifier: "showTabs", sender: self)
         }
         return true

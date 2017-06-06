@@ -74,6 +74,14 @@ class CalendarController: UIViewController, CalDayDelegate, UIScrollViewDelegate
         let _ = makeButton(fileName: "Forward.png", buttonX: width/2+90, selector: #selector(self.monthForward(sender:)), showTouch: true)
         backwardButton = makeButton(fileName: "Backward.png", buttonX: width/2-120, selector: #selector(self.monthBackward(sender:)), showTouch: true)
         backwardButton.tintColor = User.sharedUser.color
+        
+        let dayNum = Calendar.current.dateComponents([.day], from: User.sharedUser.startDate).day!
+        print(dayNum)
+        if dayNum <= 2 {
+            backwardButton.tintColor = UIColor.white
+            backwardDisabled = false
+            monthCounter += 1
+        }
     }
     
     // Creates a label based on the pre-determined text, frame, and font to be used

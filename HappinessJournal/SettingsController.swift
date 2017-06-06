@@ -58,8 +58,9 @@ class SettingsController: UIViewController, UIScrollViewDelegate {
         bottomView.addSubview(createSetting(yVal: 0, text: "About", selector: #selector(self.showAboutController(_:))))
         bottomView.addSubview(createSetting(yVal: settingHeight, text: "Send feedback or suggestions", selector: #selector(self.sendEmail(_:))))
         bottomView.addSubview(createSetting(yVal: settingHeight*2, text: "Contact the developer", selector: #selector(self.sendEmail(_:))))
-        bottomView.addSubview(createSetting(yVal: settingHeight*3 + breakHeight, text: "Three Good Things on Facebook", selector: #selector(self.toFacebook(_:))))
-        bottomView.addSubview(createSetting(yVal: settingHeight*4 + breakHeight, text: "Love the app? Rate us in the App Store", selector: #selector(self.rateApp(_:))))
+        bottomView.addSubview(createSetting(yVal: settingHeight*3 + breakHeight, text: "Love the app? Rate us in the App Store", selector: #selector(self.rateApp(_:))))
+        bottomView.addSubview(createSetting(yVal: settingHeight*4 + breakHeight, text: "Three Good Things on Facebook", selector: #selector(self.toFacebook(_:))))
+        bottomView.addSubview(createSetting(yVal: settingHeight*5 + breakHeight, text: "Three Good Things on Twitter", selector: #selector(self.toTwitter(_:))))
         
         //bottomView.addSubview(createSetting(yVal: settingHeight*5 + breakHeight, text: "Store", selector: #selector(self.showStoreController(_:))))
         
@@ -249,6 +250,18 @@ class SettingsController: UIViewController, UIScrollViewDelegate {
             UIApplication.shared.open(URL(string: "fb://page/?id=1793191400995847")!)
         } else if let url = URL(string: "https://www.facebook.com/Three-Good-Things-A-Happiness-Journal-for-iOS-1793191400995847/?view_public_for=1793191400995847") {
             UIApplication.shared.open(url)
+        }
+    }
+    
+    // Sends the user to the twitter account
+    func toTwitter(_ sender: UIButton) {
+        let screenName =  "_3_good_things"
+        let appURL = URL(string: "twitter://user?screen_name=\(screenName)")!
+        
+        if UIApplication.shared.canOpenURL(appURL) {
+            UIApplication.shared.open(appURL)
+        } else {
+            UIApplication.shared.open(URL(string: "https://twitter.com/\(screenName)")!)
         }
     }
     

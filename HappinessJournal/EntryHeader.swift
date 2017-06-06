@@ -30,13 +30,17 @@ class EntryHeader: Header {
     // Determines the date to be shown in the middle of the header
     override func showTitle(fromDate: Date) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = DateFormatter.Style.long
+        dateFormatter.dateFormat = "MMMM dd, yyyy"
         self.title = dateFormatter.string(from: fromDate)
-        
-        let pos = title.characters.distance(from: title.startIndex, to: title.characters.index(of: ",")!)
+        var pos = title.characters.distance(from: title.startIndex, to: title.characters.index(of: ",")!)
         let singlesDigit = title[title.index(title.startIndex, offsetBy: (pos-1))]
         let tensDigit = title[title.index(title.startIndex, offsetBy: (pos-2))]
+        if "\(tensDigit)" == "0" {
+            title.remove(at: title.index(title.startIndex, offsetBy: (pos-2)))
+            pos -= 1
+        }
         let dayNum = "\(tensDigit)\(singlesDigit)"
+        
         var suffix: String
         if dayNum == "11" || dayNum == "12" || dayNum == "13" {
             suffix = "th"
